@@ -1,1 +1,44 @@
-<p>planets-list works!</p>
+<div class="table-responsive p-40">
+  <table class="table table-hover bg-body align-middle">
+    <thead>
+      <tr>
+        <th class="px-20 py-10 text-muted fw-normal">Name</th>
+        <th class="text-muted fw-normal">Color</th>
+        <th class="text-muted fw-normal">
+          Radius in km
+          <i class="bi bi-caret-down-fill"></i>
+        </th>
+        <th class="text-muted fw-normal">Dist. from Sun</th>
+        <th class="text-muted fw-normal">Dist. from Earth</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of planets$ | async">
+        <td class="px-20 py-2">
+          <div class="d-flex align-items-center">
+            <img
+              width="60"
+              height="60"
+              [src]="p.imageUrl"
+              alt=""
+              class="rounded-circle me-3"
+            />
+            <div>
+              <div class="fw-semibold">{{ p.planetName }}</div>
+              <div
+                class="text-muted small text-truncate"
+                style="max-width: 330px"
+              >
+                {{ p.description }}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>{{ p.planetColor }}</td>
+        <td>{{ p.planetRadiusKM }}</td>
+        <td>{{ p.distInMillionsKM.fromSun }}</td>
+        <td>{{ p.distInMillionsKM.fromEarth }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
