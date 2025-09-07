@@ -4,8 +4,6 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./planets/planets-list/planets-list.component').then(
-        (m) => m.PlanetsListComponent
-      ),
+      import('./planets/planets.component').then((m) => m.PlanetsComponent),
   },
 ];

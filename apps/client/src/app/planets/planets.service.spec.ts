@@ -25,7 +25,7 @@ describe('PlanetsService', () => {
     http.verify();
   });
 
-  it('returns a list of planets when requested', () => {
+  it('returns a list of planets when requested', (done) => {
     const planets: Planet[] = [
       {
         id: 1,
@@ -46,6 +46,7 @@ describe('PlanetsService', () => {
     service.getPlanets().subscribe((planets) => {
       expect(planets.length).toBe(1);
       expect(planets[0].planetName).toBe('Earth');
+      done();
     });
 
     const req = http.expectOne('/api/planets');
@@ -53,13 +54,14 @@ describe('PlanetsService', () => {
     req.flush(planets);
   });
 
-  it('returns an error if planets response is invalid', () => {
+  it('returns an error if planets response is invalid', (done) => {
     const invalidResponse = [{ foo: 'bar' }];
 
     service.getPlanets().subscribe({
       error: (err) => {
         expect(err).toBeInstanceOf(Error);
         expect(err.message).toBe('Invalid planet data received.');
+        done();
       },
     });
 

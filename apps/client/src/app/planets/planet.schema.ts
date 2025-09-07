@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PlanetSchema = z.object({
+export const planetSchema = z.object({
   id: z.coerce.number(),
   planetName: z.string(),
   planetColor: z.string(),
@@ -14,4 +14,4 @@ export const PlanetSchema = z.object({
   imageName: z.string(),
 });
 
-export type Planet = z.output<typeof PlanetSchema>;
+export type Planet = z.output<typeof planetSchema>;

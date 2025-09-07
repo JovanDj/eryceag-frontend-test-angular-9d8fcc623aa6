@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { z, ZodError } from 'zod';
 
-import { PlanetSchema } from './planet.schema';
+import { planetSchema } from './planet.schema';
 
 @Injectable({ providedIn: 'root' })
 export class PlanetsService {
@@ -13,7 +13,7 @@ export class PlanetsService {
   getPlanets() {
     return this.#http.get<unknown>('/api/planets').pipe(
       map((data) => {
-        return z.array(PlanetSchema).parse(data);
+        return z.array(planetSchema).parse(data);
       }),
       catchError((err) => {
         if (err instanceof ZodError) {
