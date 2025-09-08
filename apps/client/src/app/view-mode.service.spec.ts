@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { ViewModeService } from './view-mode.service';
 
@@ -12,21 +13,19 @@ describe('ViewModeService', () => {
     service = TestBed.inject(ViewModeService);
   });
 
-  it('should set table view', (done) => {
+  it('should set table view', async () => {
     service.setViewMode('table');
 
-    service.viewMode().subscribe((viewMode) => {
-      expect(viewMode).toEqual('table');
-      done();
-    });
+    return expectAsync(firstValueFrom(service.viewMode())).toBeResolvedTo(
+      'table'
+    );
   });
 
-  it('should set grid view', (done) => {
+  it('should set grid view', () => {
     service.setViewMode('grid');
 
-    service.viewMode().subscribe((viewMode) => {
-      expect(viewMode).toEqual('grid');
-      done();
-    });
+    return expectAsync(firstValueFrom(service.viewMode())).toBeResolvedTo(
+      'grid'
+    );
   });
 });

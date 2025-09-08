@@ -7,6 +7,7 @@ import {
 
 import { PlanetsService } from './planets.service';
 import { Planet } from './planet.schema';
+import { catchError, firstValueFrom, throwError } from 'rxjs';
 
 describe('PlanetsService', () => {
   let service: PlanetsService;
@@ -25,7 +26,7 @@ describe('PlanetsService', () => {
     http.verify();
   });
 
-  it('returns a list of planets when requested', (done) => {
+  it('returns a list of planets when requested', async () => {
     const planets: Planet[] = [
       {
         id: 1,
@@ -43,30 +44,35 @@ describe('PlanetsService', () => {
       },
     ];
 
-    service.getPlanets().subscribe((planets) => {
-      expect(planets.length).toBe(1);
-      expect(planets[0].planetName).toBe('Earth');
-      done();
-    });
+    const promise = firstValueFrom(service.getPlanets());
 
     const req = http.expectOne('/api/planets');
     expect(req.request.method).toBe('GET');
     req.flush(planets);
+
+    const result = await promise;
+
+    expect(result.length).toBe(1);
+    expect(result[0].planetName).toBe('Earth');
   });
 
-  it('returns an error if planets response is invalid', (done) => {
+  it('returns an error if planets response is invalid', async () => {
     const invalidResponse = [{ foo: 'bar' }];
 
-    service.getPlanets().subscribe({
-      error: (err) => {
-        expect(err).toBeInstanceOf(Error);
-        expect(err.message).toBe('Invalid planet data received.');
-        done();
-      },
-    });
+    const resultPromise = firstValueFrom(
+      service.getPlanets().pipe(
+        catchError((err) => {
+          expect(err).toBeInstanceOf(Error);
+          expect(err.message).toBe('Invalid planet data received.');
+          return throwError(() => err);
+        })
+      )
+    );
 
     const req = http.expectOne('/api/planets');
     expect(req.request.method).toBe('GET');
     req.flush(invalidResponse);
+
+    return expectAsync(resultPromise).toBeRejected();
   });
 });
