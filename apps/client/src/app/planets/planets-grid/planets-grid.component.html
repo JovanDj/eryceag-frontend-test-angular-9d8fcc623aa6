@@ -1,0 +1,50 @@
+<div id="planets-grid" class="container-flud px-40 py-20">
+  <div class="row g-4">
+    @for (planet of planets; track $index) {
+    <div data-testid="grid-planet" class="col-12 col-sm-6 col-md-4 col-xl-3">
+      <div class="card h-100 shadow-sm p-20 border-0 rounded-3">
+        <div class="d-flex justify-content-center mt-3">
+          <img
+            [src]="planet.imageUrl"
+            [alt]="planet.planetName"
+            class="rounded-circle"
+            width="80"
+            height="80"
+          />
+        </div>
+
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold fs-2 py-4">{{ planet.planetName }}</h5>
+
+          <p class="card-text text-muted small pb-20">
+            {{ planet.description }}
+          </p>
+
+          <div class="row text-start">
+            <div class="col-6">
+              <div class="fw-bold">{{ planet.planetColor }}</div>
+              <div class="text-muted small">Color</div>
+            </div>
+            <div class="col-6">
+              <div class="fw-bold">
+                {{ planet.distInMillionsKM.fromSun | number : "1.2-2" }}
+              </div>
+              <div class="text-muted small">Dist. from Sun</div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="fw-bold">{{ planet.planetRadiusKM }}</div>
+              <div class="text-muted small">Radius in km</div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="fw-bold">
+                {{ planet.distInMillionsKM.fromEarth | number : "1.2-2" }}
+              </div>
+              <div class="text-muted small">Dist. from Earth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

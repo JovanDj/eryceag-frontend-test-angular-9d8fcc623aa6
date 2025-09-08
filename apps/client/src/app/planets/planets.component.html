@@ -1,4 +1,4 @@
 <ng-container *ngIf="vm$ | async as vm">
   <app-planets-list *ngIf="vm.viewMode === 'table'" [planets]="vm.planets" />
-  <div *ngIf="vm.viewMode === 'grid'" id="planets-grid"></div>
+  <app-planets-grid *ngIf="vm.viewMode === 'grid'" [planets]="vm.planets" />
 </ng-container>

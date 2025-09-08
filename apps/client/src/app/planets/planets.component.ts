@@ -4,11 +4,12 @@ import { PlanetsService } from './planets.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { combineLatestWith, map } from 'rxjs';
 import { ViewModeService } from '../view-mode.service';
+import { PlanetsGridComponent } from './planets-grid/planets-grid.component';
 
 @Component({
   selector: 'app-planets',
   standalone: true,
-  imports: [PlanetsListComponent, NgIf, AsyncPipe],
+  imports: [PlanetsListComponent, PlanetsGridComponent, NgIf, AsyncPipe],
   templateUrl: './planets.component.html',
   styleUrl: './planets.component.scss',
 })
