@@ -38,6 +38,7 @@ describe('PlanetsListComponent', () => {
     fixture = TestBed.createComponent(PlanetsListComponent);
     component = fixture.componentInstance;
     component.planets = planets;
+    component.sortDirection = 'desc';
 
     fixture.autoDetectChanges();
   });
@@ -67,5 +68,34 @@ describe('PlanetsListComponent', () => {
     expect(images.length).toBe(2);
     expect(images[0].nativeElement.src).toContain('earth.jpg');
     expect(images[1].nativeElement.src).toContain('mars.jpg');
+  });
+
+  it('should render the correct sort icon based on input', () => {
+    const arrowUp = fixture.debugElement.query(
+      By.css('[data-testid="arrow-up"]')
+    );
+    const arrowDown = fixture.debugElement.query(
+      By.css('[data-testid="arrow-down"]')
+    );
+
+    expect(arrowUp).toBeFalsy();
+    expect(arrowDown).toBeTruthy();
+
+    const header: HTMLElement = fixture.debugElement.query(
+      By.css("[data-testid='toggle-radius'")
+    ).nativeElement;
+
+    component.sortDirection = 'asc';
+    header.click();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('[data-testid="arrow-down"]'))
+    ).toBeFalsy();
+
+    expect(
+      fixture.debugElement.query(By.css('[data-testid="arrow-up"]'))
+    ).toBeTruthy();
   });
 });

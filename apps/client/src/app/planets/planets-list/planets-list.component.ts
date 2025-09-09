@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Planet } from '../planet.schema';
+import { SortDirection } from '../planets.service';
 
 @Component({
   selector: 'app-planets-list',
@@ -11,4 +18,14 @@ import { Planet } from '../planet.schema';
 export class PlanetsListComponent {
   @Input({ required: true })
   planets: Planet[] = [];
+
+  @Input({ required: true })
+  sortDirection: SortDirection = 'desc';
+
+  @Output()
+  toggleSortRadius = new EventEmitter<void>();
+
+  protected onToggleRadiusClick() {
+    this.toggleSortRadius.emit();
+  }
 }

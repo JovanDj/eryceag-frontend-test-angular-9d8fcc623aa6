@@ -12,6 +12,8 @@ import { z, ZodError } from 'zod';
 
 import { Planet, planetSchema } from './planet.schema';
 
+export type SortDirection = 'asc' | 'desc';
+
 @Injectable({ providedIn: 'root' })
 export class PlanetsService {
   readonly #http = inject(HttpClient);
@@ -21,23 +23,40 @@ export class PlanetsService {
 
   readonly #searchTerm = new BehaviorSubject<string>('');
 
+  readonly #sortStore = new BehaviorSubject<SortDirection>('desc');
+  readonly #sort = this.#sortStore.asObservable();
+
   readonly #filteredPlanets$ = this.#state$.pipe(
-    combineLatestWith(this.#searchTerm),
-    map(([planets, term]) => {
+    combineLatestWith(this.#searchTerm, this.#sortStore),
+    map(([planets, term, sort]) => {
       const trimmed = term.trim().toLowerCase();
 
-      if (!trimmed) {
-        return planets;
-      }
+      const filtered = trimmed
+        ? planets.filter((planet) => {
+            return planet.planetName.toLowerCase().includes(trimmed);
+          })
+        : planets;
 
-      return planets.filter((planet) => {
-        return planet.planetName.toLowerCase().includes(trimmed);
+      return filtered.sort((a, b) => {
+        if (sort === 'asc') {
+          return a.planetRadiusKM - b.planetRadiusKM;
+        }
+
+        if (sort === 'desc') {
+          return b.planetRadiusKM - a.planetRadiusKM;
+        }
+
+        return a.id - b.id;
       });
     })
   );
 
   planets() {
     return this.#filteredPlanets$;
+  }
+
+  sortDirection() {
+    return this.#sort;
   }
 
   fetchPlanets() {
@@ -57,5 +76,9 @@ export class PlanetsService {
 
   setSearchTerm(term: string) {
     this.#searchTerm.next(term);
+  }
+
+  toggleRadiusDirection() {
+    this.#sortStore.next(this.#sortStore.getValue() === 'asc' ? 'desc' : 'asc');
   }
 }

@@ -23,7 +23,18 @@ export class PlanetsComponent {
   }
 
   protected readonly vm$ = this.#planetsService.planets().pipe(
-    combineLatestWith(this.#viewModeService.viewMode()),
-    map(([planets, viewMode]) => ({ planets, viewMode }))
+    combineLatestWith(
+      this.#viewModeService.viewMode(),
+      this.#planetsService.sortDirection()
+    ),
+    map(([planets, viewMode, sortDirection]) => ({
+      planets,
+      viewMode,
+      sortDirection,
+    }))
   );
+
+  protected onToggleSortRadius() {
+    this.#planetsService.toggleRadiusDirection();
+  }
 }
