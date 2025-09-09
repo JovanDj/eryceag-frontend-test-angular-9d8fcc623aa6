@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavbarComponent } from './navbar.component';
 import { By } from '@angular/platform-browser';
 import { ViewModeService } from '../view-mode.service';
+import { PlanetsService } from '../planets/planets.service';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
@@ -13,7 +15,7 @@ describe('NavbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
-      providers: [ViewModeService],
+      providers: [provideHttpClient(), PlanetsService, ViewModeService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);
