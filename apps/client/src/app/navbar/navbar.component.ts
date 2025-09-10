@@ -6,6 +6,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ViewModeService } from '../view-mode.service';
 import { PlanetsService } from '../planets/planets.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlanetFormComponent } from '../planets/planet-form/planet-form.component';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +21,7 @@ export class NavbarComponent {
   readonly #viewModeService = inject(ViewModeService);
   readonly #planetsService = inject(PlanetsService);
   readonly #fb = inject(NonNullableFormBuilder);
+  readonly #modalService = inject(NgbModal);
 
   protected readonly term = this.#fb.control('');
 
@@ -45,5 +48,9 @@ export class NavbarComponent {
 
   protected setGridView() {
     this.#viewModeService.setViewMode('grid');
+  }
+
+  protected onNewPlanetClick() {
+    this.#modalService.open(PlanetFormComponent, { size: 'md' });
   }
 }

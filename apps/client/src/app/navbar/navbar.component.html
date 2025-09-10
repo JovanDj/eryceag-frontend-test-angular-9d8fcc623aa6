@@ -36,6 +36,11 @@
         [formControl]="term"
       />
     </div>
-    <button class="btn btn-primary text-nowrap px-3 py-10">New planet</button>
+    <button
+      (click)="onNewPlanetClick()"
+      class="btn btn-primary text-nowrap px-3 py-10"
+    >
+      New planet
+    </button>
   </div>
 </header>

@@ -81,4 +81,28 @@ export class PlanetsService {
   toggleRadiusDirection() {
     this.#sortStore.next(this.#sortStore.getValue() === 'asc' ? 'desc' : 'asc');
   }
+
+  addPlanet(formData: FormData) {
+    return this.#http.post<unknown>('/api/planets', formData).pipe(
+      map((res) => {
+        const planet = planetSchema.parse(res);
+
+        this.#store.next([
+          ...this.#store.getValue(),
+          {
+            ...planet,
+          },
+        ]);
+
+        return planet;
+      }),
+      catchError((err) => {
+        if (err instanceof ZodError) {
+          return throwError(() => new Error('Invalid planet data received.'));
+        }
+
+        return throwError(() => err);
+      })
+    );
+  }
 }

@@ -2,19 +2,19 @@ const express = require("express");
 const Multer = require("multer");
 
 const {
-  postAddPlanet,
-  putUpdatePlanet,
-  getReloadPlanets,
-  getPlanet,
-  deletePlanet,
-  getPlanets,
+    postAddPlanet,
+    putUpdatePlanet,
+    getReloadPlanets,
+    getPlanet,
+    deletePlanet,
+    getPlanets,
 } = require("../controllers/planets");
 
 const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024,
+    },
 });
 
 const router = express.Router();
