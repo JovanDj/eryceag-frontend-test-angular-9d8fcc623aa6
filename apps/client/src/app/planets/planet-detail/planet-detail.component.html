@@ -4,8 +4,12 @@
   >
     <h1 class="mb-0">{{ planet.planetName }}</h1>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary">Edit</button>
-      <button class="btn btn-primary">Delete</button>
+      <button class="btn btn-outline-secondary" (click)="onEditClick(planet)">
+        Edit
+      </button>
+      <button class="btn btn-primary" (click)="onDeleteClick(planet)">
+        Delete
+      </button>
     </div>
   </div>
 

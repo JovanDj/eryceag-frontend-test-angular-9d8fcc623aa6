@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -7,6 +7,7 @@ import {
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlanetsService } from '../planets.service';
 import { ConfirmationService } from '../../shared/confirmation.service';
+import { Planet } from '../planet.schema';
 
 @Component({
   selector: 'app-planet-form',
@@ -15,7 +16,12 @@ import { ConfirmationService } from '../../shared/confirmation.service';
   templateUrl: './planet-form.component.html',
   styleUrl: './planet-form.component.scss',
 })
-export class PlanetFormComponent {
+export class PlanetFormComponent implements OnInit {
+  @Input()
+  mode: 'CREATE' | 'EDIT' = 'CREATE';
+  @Input()
+  planet: Planet | undefined = undefined;
+
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #planetsService = inject(PlanetsService);
   readonly #active = inject(NgbActiveModal);
@@ -33,13 +39,29 @@ export class PlanetFormComponent {
     distEarth: [0, Validators.min(0)],
   });
 
+  ngOnInit() {
+    if (!this.planet) {
+      return;
+    }
+
+    this.form.patchValue({
+      name: this.planet.planetName ?? '',
+      description: this.planet.description ?? '',
+      color: this.planet.planetColor ?? '',
+      radiusKM: this.planet.planetRadiusKM ?? 0,
+      distSun: this.planet.distInMillionsKM?.fromSun ?? 0,
+      distEarth: this.planet.distInMillionsKM?.fromEarth ?? 0,
+    });
+    this.preview = this.planet.imageUrl ?? undefined;
+  }
+
   protected async onSubmit() {
-    if (this.form.invalid || !this.selectedFile) {
+    if (this.form.invalid) {
       return;
     }
 
     const confirmed = await this.#confirmation.confirm(
-      'CREATE',
+      this.mode,
       this.form.value.name ?? 'planet'
     );
 
@@ -67,11 +89,30 @@ export class PlanetFormComponent {
       this.form.value.distEarth?.toString() ?? ''
     );
 
-    formData.append('file', this.selectedFile);
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
 
-    this.#planetsService.addPlanet(formData).subscribe(() => {
-      this.#active.close();
-    });
+    if (this.mode === 'EDIT' && this.planet && !this.selectedFile) {
+      if (this.planet.imageUrl) {
+        formData.append('imageUrl', this.planet.imageUrl);
+      }
+      if (this.planet.imageName) {
+        formData.append('imageName', this.planet.imageName);
+      }
+    }
+
+    if (this.planet?.id && this.mode === 'EDIT') {
+      this.#planetsService
+        .updatePlanet(this.planet.id, formData)
+        .subscribe(() => this.#active.close());
+    }
+
+    if (this.mode === 'CREATE') {
+      this.#planetsService
+        .addPlanet(formData)
+        .subscribe(() => this.#active.close());
+    }
   }
 
   protected onFileChange(event: Event) {

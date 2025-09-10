@@ -9,7 +9,6 @@ This project is based on the original frontend test assignment, updated for mode
   apps/client → Angular frontend
   apps/planets-api → Node.js backend (unchanged)
   ```
-- Replaced Angular 10 with Angular 18 (standalone components, strict mode enabled)
 - Upgraded to Node.js v22 (via Volta) — current stable release
 - Removed the legacy run-app.sh script
 - Added a unified npm start using run-p for cross-platform parallel dev
@@ -33,6 +32,12 @@ This will:
 Serve the Angular 18 app on http://localhost:4200
 
 Launch the API on http://localhost:3001
+
+Run frontend tests:
+
+```
+npm run test --workspace apps/client
+```
 
 ## Project Structure
 
@@ -61,71 +66,130 @@ Defined in the root package.json:
 
 `npm --workspace apps/planets-api start` → Run only the API
 
-## Frontend Test
+# Frontend Developer Test - Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
+## Design Prototype
 
-## Design link
+Please refer to the following Figma design for UI/UX guidelines:
 
-[Figma link](https://www.figma.com/file/ce6sSBQstsWRWRaS6AKnqK/Frontend-test?node-id=2%3A69)
+[Figma Link](https://www.figma.com/file/ce6sSBQstsWRWRaS6AKnqK/Frontend-test?node-id=2%3A69)
 
-## Development server
+---
 
-#### To run client and api together
+## Getting Started
 
-- Open the terminal
-- `npm install` inside _planets-api_ folder
-- `npm install` inside _client_ folder
-- Run `./run-app.sh`
+To run both the frontend client and backend API locally, follow these steps:
 
-#### Table of API's
+1. Inside `planet-api` directory, run:
 
-| Method | Resource | Description | Content type |
-| ------ | ------ | ------ | ------ |
-| POST |  /api/planets | Create new planet | form-data
-| GET |   /api/planets | Get all planets |
-| GET |   /api/planets/{id} | Get one planet |
-| PUT |   /api/planets/{id} | Update planet | form-data
-| DELETE | /api/planets/{id} | Delete one planet |
-| GET |   /api/planets/reload | Reload planet data |
+```bash
+npm install
+```
 
-## Task description
+2. Inside `client` directory, run:
 
-You are supposed to create an app for showing information about planets. 
-You should also be able to create, edit or delete planets. <br>
-Create a repo on your github with public access and push yor work there.
+```bash
+npm install
+```
 
-#### Landing page:
+3. From the project root directory:
 
-  - Create a landing page which will consist of:
-  - Grid layout of planets
-  - Table - here we will list all the planets
-  - Sorting of planets in the table by at least one property
-  - Search - used to search the planets in the table
-  - SWITCH VIEW button which will switch the view between grid and table view of planets
-  - CREATE button - used to add a new planet in the table
-  - CREATE button will trigger a dialog with a form for creating planet
+```bash
+./run-app.sh
+```
 
-#### Single item page:
+This script will start both the client app and API server.
 
-  - Create a single planet page which will show information about a single item
-  - Under item information show two buttons - EDIT and DELETE
-  - EDIT button will trigger a dialog with a form for updating item
-  - DELETE button will trigger a confirmation popup
+---
 
-#### Dialog:
+## API Endpoints
 
-  - Dialog to show the form for create/edit item
-  - CONFIRM button will trigger confirmation popup
-  - CANCEL button will close the dialog and disregard all changes made in the form
+The backend API supports the following endpoints:
 
-#### Popup:
+| Method | Endpoint              | Description                    | Content-Type |
+| ------ | --------------------- | ------------------------------ | ------------ |
+| POST   | `/api/planets`        | Create a planet                | form-data    |
+| GET    | `/api/planets`        | Retrieve all planets           | -            |
+| GET    | `/api/planets/{id}`   | Retrieve a single planet by ID | -            |
+| PUT    | `/api/planets/{id}`   | Update a planet                | form-data    |
+| DELETE | `/api/planets/{id}`   | Delete a planet                | -            |
+| GET    | `/api/planets/reload` | Reload planet data             | -            |
 
-(This popup should appear after the action in the dialog, and it can appear after the dialog is closed or on top of dialog)
+---
 
-- Confirmation popup for CREATE / EDIT / DELETE action
-  - Popup must have a message:
-    “Are you sure you want to CREATE / EDIT / DELETE [itemName]?
-  - Two buttons - CONFIRM and CANCEL
-  - CONFIRM button will CREATE / EDIT / DELETE item
-  - CANCEL button will close the popup and discard all changes made in the form
+## Task Overview
+
+Your objective is to build a simple Angular application that manages information about planets. The application should
+allow users to:
+
+- View a list of all planets
+- Toggle between grid and table views
+- Search and sort the list of planets
+- Create new planets
+- Edit existing planets
+- Delete planets
+- View detailed information for a single planet
+
+Once complete, push your work to a **public GitHub repository** and share the link with us.
+
+---
+
+## Landing Page Requirements
+
+The landing page should include the following features:
+
+- **Grid and Table View Toggle**: Allow users to switch between a card grid layout and a data table.
+- **Table Features**:
+    - Sortable columns (at least one sortable field)
+    - Search/filter functionality for planet names or other fields
+- **Action Buttons**:
+    - `CREATE`: Opens a modal/dialog form for adding a new planet
+    - `SWITCH VIEW`: Switches between table and grid views
+
+---
+
+## Single Planet Details Page
+
+When a user selects a planet, show a dedicated page with the following:
+
+- Detailed information about the selected planet
+- Two buttons:
+    - `EDIT`: Opens a dialog with the planet's existing data pre-filled for editing
+    - `DELETE`: Opens a confirmation popup before deleting
+
+---
+
+## Dialog Component Behavior
+
+Use dialog for both **creating** and **editing** planets. Each dialog should contain:
+
+- A form for entering/editing planet details
+- Two buttons:
+    - `CONFIRM`: Submits the form and shows a confirmation popup
+    - `CANCEL`: Closes the dialog without saving changes
+
+---
+
+## Confirmation Popup
+
+After the user confirms a create, edit, or delete action, a popup should appear to double-check the action. The popup
+should contain:
+
+- A clear message:  
+  `Are you sure you want to CREATE / EDIT / DELETE [itemName]?`
+- Two buttons:
+    - `CONFIRM`: Proceeds with the action
+    - `CANCEL`: Cancels the action and closes the popup
+
+---
+
+## Notes
+
+- Focus on clean and maintainable code architecture
+- Use Angular best practices
+- You may use standalone components
+- Responsive design is encouraged but not required
+
+---
+
+Let us know if you have any questions. Good luck!

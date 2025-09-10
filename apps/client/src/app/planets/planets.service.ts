@@ -3,6 +3,7 @@ import {
   catchError,
   combineLatestWith,
   map,
+  tap,
   throwError,
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -110,6 +111,31 @@ export class PlanetsService {
     return this.#http.get<unknown>(`/api/planets/${id}`).pipe(
       map((res) => {
         return planetSchema.parse(res);
+      })
+    );
+  }
+
+  updatePlanet(id: number, formData: FormData) {
+    return this.#http.put<unknown>(`/api/planets/${id}`, formData).pipe(
+      map((res) => {
+        return planetSchema.parse(res);
+      }),
+      tap((updated) => {
+        return this.#store.next(
+          this.#store.getValue().map((planet) => {
+            return planet.id === id ? updated : planet;
+          })
+        );
+      })
+    );
+  }
+
+  deletePlanet(id: number) {
+    return this.#http.delete<void>(`/api/planets/${id}`).pipe(
+      tap(() => {
+        return this.#store.next(
+          this.#store.getValue().filter((p) => p.id !== id)
+        );
       })
     );
   }
