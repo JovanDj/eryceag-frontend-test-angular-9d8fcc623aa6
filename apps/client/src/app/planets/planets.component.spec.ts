@@ -12,6 +12,7 @@ import { PlanetsService } from './planets.service';
 import { ViewModeService } from '../shared/view-mode.service';
 
 import { Planet } from './planet.schema';
+import { provideRouter } from '@angular/router';
 
 describe('PlanetsComponent', () => {
   let fixture: ComponentFixture<PlanetsComponent>;
@@ -45,6 +46,7 @@ describe('PlanetsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PlanetsComponent, PlanetsListComponent],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
         PlanetsService,

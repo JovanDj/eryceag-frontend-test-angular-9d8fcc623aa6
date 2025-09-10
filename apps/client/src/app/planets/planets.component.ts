@@ -8,11 +8,18 @@ import { ViewModeService } from '../shared/view-mode.service';
 import { PlanetsGridComponent } from './planets-grid/planets-grid.component';
 import { PlanetsListComponent } from './planets-list/planets-list.component';
 import { PlanetsService } from './planets.service';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-planets',
   standalone: true,
-  imports: [PlanetsListComponent, PlanetsGridComponent, NgIf, AsyncPipe],
+  imports: [
+    PlanetsListComponent,
+    PlanetsGridComponent,
+    NgIf,
+    AsyncPipe,
+    NavbarComponent,
+  ],
   templateUrl: './planets.component.html',
   styleUrl: './planets.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -5,6 +5,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
 import { Planet } from '../planet.schema';
 import { SortDirection } from '../planets.service';
 
@@ -14,6 +16,7 @@ import { SortDirection } from '../planets.service';
   templateUrl: './planets-list.component.html',
   styleUrl: './planets-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
 })
 export class PlanetsListComponent {
   @Input({ required: true })

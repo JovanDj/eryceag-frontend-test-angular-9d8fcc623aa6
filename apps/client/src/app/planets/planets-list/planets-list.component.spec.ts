@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlanetsListComponent } from './planets-list.component';
 import { By } from '@angular/platform-browser';
 import { Planet } from '../planet.schema';
+import { provideRouter } from '@angular/router';
 
 describe('PlanetsListComponent', () => {
   let component: PlanetsListComponent;
@@ -33,6 +34,7 @@ describe('PlanetsListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlanetsListComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PlanetsListComponent);

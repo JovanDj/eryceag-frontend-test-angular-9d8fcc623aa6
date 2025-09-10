@@ -105,4 +105,12 @@ export class PlanetsService {
       })
     );
   }
+
+  fetchPlanet(id: Planet['id']) {
+    return this.#http.get<unknown>(`/api/planets/${id}`).pipe(
+      map((res) => {
+        return planetSchema.parse(res);
+      })
+    );
+  }
 }

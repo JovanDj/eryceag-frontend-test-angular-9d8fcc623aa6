@@ -23,27 +23,33 @@
       @for (planet of planets; track $index) {
       <tr>
         <td class="px-20 py-2">
-          <div class="d-flex align-items-center">
-            <img
-              width="60"
-              height="60"
-              [src]="planet.imageUrl"
-              alt=""
-              class="rounded-circle me-3"
-            />
-            <div>
-              <div data-testid="planet-name" class="fw-semibold">
-                {{ planet.planetName }}
-              </div>
-              <div
-                class="text-muted small text-truncate"
-                style="max-width: 330px"
-              >
-                {{ planet.description }}
+          <a
+            class="text-decoration-none"
+            [routerLink]="['/planets', planet.id]"
+          >
+            <div class="d-flex align-items-center">
+              <img
+                width="60"
+                height="60"
+                [src]="planet.imageUrl"
+                alt=""
+                class="rounded-circle me-3"
+              />
+              <div>
+                <div data-testid="planet-name" class="fw-semibold">
+                  {{ planet.planetName }}
+                </div>
+                <div
+                  class="text-muted small text-truncate"
+                  style="max-width: 330px"
+                >
+                  {{ planet.description }}
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </td>
+
         <td>{{ planet.planetColor }}</td>
         <td>{{ planet.planetRadiusKM }}</td>
         <td>{{ planet.distInMillionsKM.fromSun }}</td>
