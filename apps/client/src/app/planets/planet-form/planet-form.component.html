@@ -1,11 +1,5 @@
 <div class="modal-header border-bottom-0">
   <h4 class="modal-title">New Planet</h4>
-  <button
-    type="button"
-    class="btn-close"
-    aria-label="Close"
-    (click)="active.dismiss()"
-  ></button>
 </div>
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -90,7 +84,13 @@
 
     <div class="d-flex justify-content-center align-items-center gap-5">
       <button type="submit" class="btn btn-primary">Create</button>
-      <button type="reset" class="btn btn-close-white">Cancel</button>
+      <button
+        (click)="onCancelClick()"
+        type="reset"
+        class="btn btn-close-white"
+      >
+        Cancel
+      </button>
     </div>
   </form>
 </div>

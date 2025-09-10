@@ -6,19 +6,20 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlanetsService } from '../planets.service';
+import { ConfirmationService } from '../../shared/confirmation.service';
 
 @Component({
   selector: 'app-planet-form',
   standalone: true,
   imports: [ReactiveFormsModule],
-  providers: [NgbActiveModal],
   templateUrl: './planet-form.component.html',
   styleUrl: './planet-form.component.scss',
 })
 export class PlanetFormComponent {
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #planetsService = inject(PlanetsService);
-  readonly active = inject(NgbActiveModal);
+  readonly #active = inject(NgbActiveModal);
+  readonly #confirmation = inject(ConfirmationService);
 
   protected preview: string | undefined = undefined;
   protected selectedFile: File | undefined = undefined;
@@ -32,10 +33,17 @@ export class PlanetFormComponent {
     distEarth: [0, Validators.min(0)],
   });
 
-  protected onSubmit() {
-    console.log(this.form.value);
-
+  protected async onSubmit() {
     if (this.form.invalid || !this.selectedFile) {
+      return;
+    }
+
+    const confirmed = await this.#confirmation.confirm(
+      'CREATE',
+      this.form.value.name ?? 'planet'
+    );
+
+    if (!confirmed) {
       return;
     }
 
@@ -62,7 +70,7 @@ export class PlanetFormComponent {
     formData.append('file', this.selectedFile);
 
     this.#planetsService.addPlanet(formData).subscribe(() => {
-      this.active.close();
+      this.#active.close();
     });
   }
 
@@ -80,5 +88,10 @@ export class PlanetFormComponent {
       reader.onload = () => (this.preview = reader.result?.toString());
       reader.readAsDataURL(this.selectedFile);
     }
+  }
+
+  protected onCancelClick() {
+    this.form.reset();
+    this.#active.dismiss();
   }
 }

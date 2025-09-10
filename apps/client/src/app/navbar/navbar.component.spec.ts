@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NavbarComponent } from './navbar.component';
 import { By } from '@angular/platform-browser';
-import { ViewModeService } from '../view-mode.service';
-import { PlanetsService } from '../planets/planets.service';
 import { provideHttpClient } from '@angular/common/http';
+
+import { ViewModeService } from '../shared/view-mode.service';
+import { PlanetsService } from '../planets/planets.service';
+import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;

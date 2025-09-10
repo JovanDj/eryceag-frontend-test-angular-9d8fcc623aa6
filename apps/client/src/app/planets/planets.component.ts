@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { PlanetsListComponent } from './planets-list/planets-list.component';
-import { PlanetsService } from './planets.service';
+
 import { AsyncPipe, NgIf } from '@angular/common';
 import { combineLatestWith, map } from 'rxjs';
-import { ViewModeService } from '../view-mode.service';
-import { PlanetsGridComponent } from './planets-grid/planets-grid.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { ViewModeService } from '../shared/view-mode.service';
+import { PlanetsGridComponent } from './planets-grid/planets-grid.component';
+import { PlanetsListComponent } from './planets-list/planets-list.component';
+import { PlanetsService } from './planets.service';
+
 @Component({
   selector: 'app-planets',
   standalone: true,

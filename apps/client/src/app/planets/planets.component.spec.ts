@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PlanetsComponent } from './planets.component';
-import { PlanetsListComponent } from './planets-list/planets-list.component';
-import { PlanetsService } from './planets.service';
 import { provideHttpClient } from '@angular/common/http';
-import { ViewModeService } from '../view-mode.service';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+
+import { PlanetsComponent } from './planets.component';
+import { PlanetsListComponent } from './planets-list/planets-list.component';
+import { PlanetsService } from './planets.service';
+import { ViewModeService } from '../shared/view-mode.service';
+
 import { Planet } from './planet.schema';
 
 describe('PlanetsComponent', () => {

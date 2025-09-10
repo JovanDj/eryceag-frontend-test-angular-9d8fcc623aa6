@@ -3,10 +3,10 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { ViewModeService } from '../view-mode.service';
-import { PlanetsService } from '../planets/planets.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ViewModeService } from '../shared/view-mode.service';
+import { PlanetsService } from '../planets/planets.service';
 import { PlanetFormComponent } from '../planets/planet-form/planet-form.component';
 
 @Component({
@@ -51,6 +51,9 @@ export class NavbarComponent {
   }
 
   protected onNewPlanetClick() {
-    this.#modalService.open(PlanetFormComponent, { size: 'md' });
+    this.#modalService.open(PlanetFormComponent, {
+      size: 'md',
+      centered: true,
+    });
   }
 }
